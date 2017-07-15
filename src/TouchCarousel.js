@@ -177,7 +177,7 @@ class TouchCarousel extends React.PureComponent {
       component: Component,
       cardSize, cardCount,
       cardPadCount, renderCard,
-      loop, moveScale, damping, autoplay, vertical, precision,
+      loop, moveScale, damping, autoplay, vertical, precision, clickTolerance,
       ...rest
     } = this.props
     const {cursor, active, dragging, moding} = this.state
@@ -226,7 +226,7 @@ TouchCarousel.defaultProps = {
   precision: 0.001,
   moveScale: 1,
   damping: 1,
-  clickTolerance: 16,
+  clickTolerance: 16
 }
 
 export default TouchCarousel

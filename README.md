@@ -60,65 +60,126 @@ See some detailed [examples](https://github.com/xiaody/react-touch-carousel/tree
 
 ### props.component {Component}
 
-your container component of the carousel
+Your container component of the carousel.
 
-react-touch-carousel will pass it's touch listeners, dragging/active state, current position cursor to this component
+react-touch-carousel will pass it's touch listeners, dragging/active state, current position cursor to this component.
 
-### props.renderCard(index, modIndex, cursor) {Function}
+It is actually called like this:
 
-the card renderer
+```jsx
+<Component
+  cursor={usedCursor}
+  carouselState={carouselState}
+  onTouchStart={onTouchStart}
+  onTouchMove={onTouchMove}
+  onTouchEnd={onTouchEnd}
+  onTouchCancel={onTouchCancel}
+>
+  {allYourRenderedCards}
+</Component>
+```
 
-all rendered cards joined as an array will be passed to props.component as it's `children`
+### props.renderCard(index, modIndex, cursor, carouselState) {Function}
+
+The card renderer.
+
+All rendered cards joined as an array will be passed to props.component as it's `children`.
 
 ### props.cardCount {Number}
 
-the count of your cards, not including the padded ones
+The count of your cards, not including the padded ones.
 
 ### props.cardPadCount {Number}
 
-the count of padded cards, necessary for looping
+The count of padded cards, necessary for looping.
+
+Ignored if `loop` is `false`.
 
 ### props.cardSize {Number}
 
-the width (or height if vertical is true) in pixels of a card
+The width (or height if `vertical` is `true`) in pixels of a card.
 
 ### props.vertical {Boolean}
 
-listen to vertical touch moves instead of horizontal ones
+Listen to vertical touch moves instead of horizontal ones. Default `false`.
 
 ### props.loop {Boolean}
 
-tail to head, head to tail
+Tail to head, head to tail. Default `true`.
 
 ### props.autoplay {Number}
 
-interval in milliseconds, 0 as disabled
+Interval in milliseconds, 0 as disabled. Default `0`.
 
 ### props.defaultCursor {Number}
 
-the cursor value for initial render
+The cursor value for initial render.
 
-notice the sign of the number, normally it should be negative or zero(default)
+Notice the sign of the number, normally it should be negative or zero(default).
 
-### props.onRest {Function}
+### props.onRest(index, modIndex, cursor, carouselState) {Function}
 
-callback when the carousel is rested at a card
+Callback when the carousel is rested at a card.
+
+### props.ignoreCrossMove {Number|Boolean}
+
+If `deltCrossAxis * ignoreCrossMove > deltMainAxis`, carousel would ignore the dragging.
+
+`true` as `1` and `false` as `0`. Default `true`.
+
+## Concepts
+
+### Cursor
+
+A cursor indicates the transition position of the carousel.
+
+When the user swipes right, the number gets bigger. When the user swipes left, the number get smaller.
+
+There are three steps to calculating the cursor's final value:
+specified, computed, used.
+
+In most cases you just use the used cursor value to render your carousel content.
+
+### CarouselState
+
+A carouselState is always passed to your `component` and `renderCard`.
+
+It contains:
+```js
+{
+  cursor, // the specified cursor
+  active, // is user interacting with the component, no matter dragging or pressing or clicking?
+  dragging, // is user dragging the component?
+  springing, // has user dragged and released the component, and the component is transitioning to the specified cursor?
+  moding // is the cursor moding?
+}
+```
+
+### Mod
+
+This happens if you enable `loop`. We keep the cursor in a valid range by "moding" it.
 
 ## Advanced options
 
 There are some advanced options, but normally you don't need to touch them.
 
-So I don't write their docs for now.
-
 ## Methods
 
-You know that React allows you to get the ref of a component.
+### go(targetCursor)
 
-This component expose some methods like `go()`, `next()`, `prev()`,
-but normally you don't need them I guess.
+Transition to a position.
 
-So I don't write their docs for now.
+### next()
 
+Transition to next card.
+
+### prev()
+
+Transition to previous card.
+
+### modAs(targetCursor)
+
+Hard jump to a position.
 
 [slick]: https://kenwheeler.github.io/slick/
 [Swiper]: http://idangero.us/swiper/

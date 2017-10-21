@@ -1,6 +1,6 @@
 {
   "name": "react-touch-carousel",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Micro carousel framework for React.JS",
   "main": "lib/index.js",
   "files": [
@@ -54,7 +54,7 @@
     "webpack-dev-server": "2.9.1"
   },
   "dependencies": {
-    "react-motion": "0.5.1"
+    "react-motion": "0.5.2"
   },
   "standard": {
     "ignore": [

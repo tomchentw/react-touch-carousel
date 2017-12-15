@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {render} from 'react-dom'
 import TouchCarousel, {clamp, range} from '../../src'
+import touchWithMouseHOC from '../../src/touchWithMouseHOC'
 import './index.css'
 
 const data = range(0, 999).map(n => ({
@@ -59,11 +60,15 @@ class App extends Component {
     }
   }
 
-  container = (props) => {
+  container = touchWithMouseHOC((props) => {
     const {cursor, carouselState, ...rest} = props
     const translateX = cursor * cardSize
     return (
-      <div className='carousel-container' onTouchStart={this.modPage}>
+      <div
+        className='carousel-container'
+        onTouchStart={this.modPage}
+        onMouseDown={this.modPage}
+      >
         <div
           className='carousel-track'
           style={{transform: `translate3d(${translateX}px, 0, 0)`}}
@@ -71,7 +76,7 @@ class App extends Component {
         />
       </div>
     )
-  }
+  })
 
   renderCard = (index, _, cursor) => {
     const {page} = this.state
@@ -99,7 +104,8 @@ class App extends Component {
         loop={false}
         renderCard={this.renderCard}
         defaultCursor={this.defaultCursor}
-      />
+        mouseSupport
+        />
     )
   }
 }
@@ -107,7 +113,4 @@ class App extends Component {
 document.addEventListener('DOMContentLoaded', function () {
   const ndRoot = document.getElementById('react-root')
   render(<App />, ndRoot)
-  if (!('ontouchmove' in window)) {
-    document.getElementById('mobile-tip').removeAttribute('hidden')
-  }
 })

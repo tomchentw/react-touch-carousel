@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {render} from 'react-dom'
 import data from '../data'
 import TouchCarousel, {clamp} from '../../src'
+import touchWithMouseHOC from '../../src/touchWithMouseHOC'
 import './index.css'
 
 const cardSize = 300
@@ -22,6 +23,8 @@ function CarouselContainer (props) {
     </div>
   )
 }
+
+const Container = touchWithMouseHOC(CarouselContainer)
 
 class App extends Component {
   renderCard (index, modIndex, cursor) {
@@ -48,13 +51,14 @@ class App extends Component {
   render () {
     return (
       <TouchCarousel
-        component={CarouselContainer}
+        component={Container}
         cardSize={cardSize}
         cardCount={data.length}
         cardPadCount={cardPadCount}
         autoplay={2e3}
         renderCard={this.renderCard}
-      />
+        mouseSupport
+        />
     )
   }
 }
@@ -62,7 +66,4 @@ class App extends Component {
 document.addEventListener('DOMContentLoaded', function () {
   const ndRoot = document.getElementById('react-root')
   render(<App />, ndRoot)
-  if (!('ontouchmove' in window)) {
-    document.getElementById('mobile-tip').removeAttribute('hidden')
-  }
 })

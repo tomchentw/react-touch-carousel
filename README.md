@@ -131,6 +131,10 @@ If `deltCrossAxis * ignoreCrossMove > deltMainAxis`, carousel would ignore the d
 
 `true` as `1` and `false` as `0`. Default `true`.
 
+### props.mouseSupport {Boolean}
+
+If this is set to `true`, desktop users can drag the carousel using the mouse.
+
 ## Concepts
 
 ### Cursor
@@ -184,6 +188,20 @@ Transition to previous card.
 ### modAs(targetCursor)
 
 Hard jump to a position.
+
+## Mouse support
+
+We provide a HOC for basic mouse support. Internally it simulates touch events with the mouse events.
+
+```jsx
+import touchWithMouseHOC from 'react-touch-carousel/lib/touchWithMouseHOC'
+
+const Container = touchWithMouseHOC(CarouselContainer)
+
+<TouchCarousel
+  component={Container}
+/>
+```
 
 [slick]: https://kenwheeler.github.io/slick/
 [Swiper]: http://idangero.us/swiper/
